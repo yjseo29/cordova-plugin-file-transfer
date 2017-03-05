@@ -460,8 +460,8 @@ public class FileTransfer extends CordovaPlugin {
 
                         if (multipartFormUpload) {
                             //We don't want to change encoding, we just want this to write for all Unicode.
-                            sendStream.write(beforeDataBytes);
-                            totalBytes += beforeDataBytes.length;
+                            //sendStream.write(beforeDataBytes);
+                            //totalBytes += beforeDataBytes.length;
                         }
 
                         // create a buffer of maximum size
