@@ -371,7 +371,7 @@ public class FileTransfer extends CordovaPlugin {
                     // if we specified a Content-Type header, don't do multipart form upload
                     boolean multipartFormUpload = (headers == null) || !headers.has("Content-Type");
                     if (multipartFormUpload) {
-                        conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
+                        //conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
                     }
 
                     // Set the cookies on the response
@@ -494,8 +494,8 @@ public class FileTransfer extends CordovaPlugin {
 
                         if (multipartFormUpload) {
                             // send multipart form data necessary after file data...
-                            sendStream.write(tailParamsBytes);
-                            totalBytes += tailParamsBytes.length;
+                            //sendStream.write(tailParamsBytes);
+                            //totalBytes += tailParamsBytes.length;
                         }
                         sendStream.flush();
                     } finally {

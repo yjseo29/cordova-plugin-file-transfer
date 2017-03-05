@@ -189,7 +189,10 @@ static CFIndex WriteDataToStream(NSData* data, CFWriteStreamRef stream)
         NSString* contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", kFormBoundary];
         [req setValue:contentType forHTTPHeaderField:@"Content-Type"];
     }
-    [self applyRequestHeaders:headers toRequest:req];
+    //[self applyRequestHeaders:headers toRequest:req];
+    [req setValue:@"{\"path\":\"/database.db\",\"mode\":{\".tag\":\"overwrite\"}}" forHTTPHeaderField:@"Dropbox-API-Arg"];
+    [req setValue:@"application/octet-stream" forHTTPHeaderField:@"Content-Type"];
+    [req setValue:[headers objectForKey:@"Authorization"] forHTTPHeaderField:@"Authorization"];
 
     NSData* formBoundaryData = [[NSString stringWithFormat:@"--%@\r\n", kFormBoundary] dataUsingEncoding:NSUTF8StringEncoding];
     NSMutableData* postBodyBeforeFile = [NSMutableData data];
@@ -214,19 +217,19 @@ static CFIndex WriteDataToStream(NSData* data, CFWriteStreamRef stream)
         [postBodyBeforeFile appendData:[@"\r\n" dataUsingEncoding : NSUTF8StringEncoding]];
     }
 
-    [postBodyBeforeFile appendData:formBoundaryData];
-    [postBodyBeforeFile appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", fileKey, fileName] dataUsingEncoding:NSUTF8StringEncoding]];
+    //[postBodyBeforeFile appendData:formBoundaryData];
+    //[postBodyBeforeFile appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", fileKey, fileName] dataUsingEncoding:NSUTF8StringEncoding]];
     if (mimeType != nil) {
-        [postBodyBeforeFile appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n", mimeType] dataUsingEncoding:NSUTF8StringEncoding]];
+        //[postBodyBeforeFile appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n", mimeType] dataUsingEncoding:NSUTF8StringEncoding]];
     }
-    [postBodyBeforeFile appendData:[[NSString stringWithFormat:@"Content-Length: %ld\r\n\r\n", (long)[fileData length]] dataUsingEncoding:NSUTF8StringEncoding]];
+    //[postBodyBeforeFile appendData:[[NSString stringWithFormat:@"Content-Length: %ld\r\n\r\n", (long)[fileData length]] dataUsingEncoding:NSUTF8StringEncoding]];
 
     DLog(@"fileData length: %d", [fileData length]);
     NSData* postBodyAfterFile = [[NSString stringWithFormat:@"\r\n--%@--\r\n", kFormBoundary] dataUsingEncoding:NSUTF8StringEncoding];
 
     long long totalPayloadLength = [fileData length];
     if (multipartFormUpload) {
-        totalPayloadLength += [postBodyBeforeFile length] + [postBodyAfterFile length];
+        //totalPayloadLength += [postBodyBeforeFile length] + [postBodyAfterFile length];
     }
 
     [req setValue:[[NSNumber numberWithLongLong:totalPayloadLength] stringValue] forHTTPHeaderField:@"Content-Length"];
