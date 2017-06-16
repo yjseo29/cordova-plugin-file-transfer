@@ -190,7 +190,7 @@ static CFIndex WriteDataToStream(NSData* data, CFWriteStreamRef stream)
         [req setValue:contentType forHTTPHeaderField:@"Content-Type"];
     }
     //[self applyRequestHeaders:headers toRequest:req];
-    [req setValue:@"{\"path\":\"/database.db\",\"mode\":{\".tag\":\"overwrite\"}}" forHTTPHeaderField:@"Dropbox-API-Arg"];
+    [req setValue:[headers objectForKey:@"Dropbox-API-Arg"] forHTTPHeaderField:@"Dropbox-API-Arg"];
     [req setValue:@"application/octet-stream" forHTTPHeaderField:@"Content-Type"];
     [req setValue:[headers objectForKey:@"Authorization"] forHTTPHeaderField:@"Authorization"];
 
