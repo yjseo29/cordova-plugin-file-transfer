@@ -369,9 +369,9 @@ public class FileTransfer extends CordovaPlugin {
                     conn.setRequestMethod(httpMethod);
 
                     // if we specified a Content-Type header, don't do multipart form upload
-                    boolean multipartFormUpload = (headers == null) || !headers.has("Content-Type");
+                    boolean multipartFormUpload = headers == null;
                     if (multipartFormUpload) {
-                        //conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
+                        conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
                     }
 
                     // Set the cookies on the response
@@ -460,8 +460,8 @@ public class FileTransfer extends CordovaPlugin {
 
                         if (multipartFormUpload) {
                             //We don't want to change encoding, we just want this to write for all Unicode.
-                            //sendStream.write(beforeDataBytes);
-                            //totalBytes += beforeDataBytes.length;
+                            sendStream.write(beforeDataBytes);
+                            totalBytes += beforeDataBytes.length;
                         }
 
                         // create a buffer of maximum size
@@ -494,8 +494,8 @@ public class FileTransfer extends CordovaPlugin {
 
                         if (multipartFormUpload) {
                             // send multipart form data necessary after file data...
-                            //sendStream.write(tailParamsBytes);
-                            //totalBytes += tailParamsBytes.length;
+                            sendStream.write(tailParamsBytes);
+                            totalBytes += tailParamsBytes.length;
                         }
                         sendStream.flush();
                     } finally {
